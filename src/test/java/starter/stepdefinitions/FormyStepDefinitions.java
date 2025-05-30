@@ -18,21 +18,21 @@ public class FormyStepDefinitions {
         OnStage.setTheStage(new OnlineCast());
     }
 
-    @Given("Jorge opens the form page")
+    @Given("Abrir la pagina del formulario")
     public void openForm() {
-        OnStage.theActorCalled("Jorge").wasAbleTo(
+        OnStage.theActorCalled("Usuario").wasAbleTo(
                 Open.url("https://formy-project.herokuapp.com/form")
         );
     }
 
-    @When("he fills in the form with valid data")
+    @When("Llenar el formulario con data valida")
     public void fillForm() {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 FillForm.completely()
         );
     }
 
-    @Then("he should see a successful submission")
+    @Then("Ver que se completa exitosamente")
     public void verifySubmission() {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 WaitUntil.the(FormPage.ALERT_SUCCESS, isVisible())

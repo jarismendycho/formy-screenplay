@@ -1,6 +1,6 @@
-Feature: Form submission on Formy
+Feature: Llenado de formulario
 
-  Scenario: Successfully fill and submit the form
-    Given Jorge opens the form page
-    When he fills in the form with valid data
-    Then he should see a successful submission
+  Scenario: Llenar y enviar exitosamente el formulario
+    Given Abrir la pagina del formulario
+    When Llenar el formulario con data valida
+    Then Ver que se completa exitosamente
