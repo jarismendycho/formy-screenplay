@@ -21,15 +21,26 @@ ext {
 }
 
 dependencies {
-    // Para tu código (src/main/java): Screenplay + WebDriver
+    // Core y Screenplay
     implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
 
-    // Para los tests (runner Cucumber + JUnit + Serenity)
+    // WebDriver
+    testImplementation "org.seleniumhq.selenium:selenium-java:4.8.3"
+
+    // JUnit + Cucumber en Serenity 4.x
+    testImplementation "net.serenity-bdd:serenity-junit:${serenityVersion}"
     testImplementation "net.serenity-bdd:serenity-cucumber:${serenityVersion}"
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
-    testImplementation "junit:junit:4.13.2"
 
+    // Asserts y vintage JUnit
+    testImplementation "junit:junit:4.13.2"
+}
+
+serenity {
+    version         = "${serenityVersion}"
+    cucumberVersion = "${cucumberVersion}"
 }
