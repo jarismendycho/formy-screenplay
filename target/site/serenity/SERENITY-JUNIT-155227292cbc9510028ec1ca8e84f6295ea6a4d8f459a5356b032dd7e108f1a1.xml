@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="0" failures="0" name="Servicio SOAP Calculator" skipped="0" tests="2" time="0.59" timestamp="2025-05-30 04:20:24"><testcase name="Sumar 5 y 3"/><testcase name="Restar 10 y 4"/></testsuite>

@@ -3,8 +3,8 @@ plugins {
     id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.22'
 }
 
-group 'starter'
-version '1.0-SNAPSHOT'
+group = 'starter'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -21,13 +21,13 @@ ext {
 }
 
 dependencies {
-    // Core y Screenplay
+    // Serenity Core + Screenplay Web + REST
     implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
 
-    // WebDriver
+    // Selenium WebDriver
     testImplementation "org.seleniumhq.selenium:selenium-java:4.8.3"
 
     // JUnit + Cucumber en Serenity 4.x
@@ -36,11 +36,27 @@ dependencies {
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
 
-    // Asserts y vintage JUnit
+    // Assertions
     testImplementation "junit:junit:4.13.2"
 }
 
 serenity {
-    version         = "${serenityVersion}"
+    version = "${serenityVersion}"
     cucumberVersion = "${cucumberVersion}"
+}
+
+// Tarea para imprimir links de reportes post-test
+tasks.register('printReportLinks') {
+    group = 'Reporting'
+    description = 'Muestra en consola las URLs de los informes JUnit y Serenity'
+    doLast {
+        println ''
+        println '📄 Informes generados:'
+        println "  • Serenity Report: file://${projectDir}/build/reports/tests/test/index.html"
+        println ''
+    }
+}
+
+tasks.named('test') {
+    finalizedBy 'printReportLinks'
 }
