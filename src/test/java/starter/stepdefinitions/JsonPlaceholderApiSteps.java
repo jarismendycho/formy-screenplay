@@ -19,11 +19,13 @@ public class JsonPlaceholderApiSteps {
     @Before
     public void setUp() {
         OnStage.setTheStage(new OnlineCast());
+        OnStage.theActorCalled("Usuario")
+                .can(CallAnApi.at(BASE_URL));
     }
 
     @Given("la API está disponible con la URL base {string}")
     public void i_set_jsonplaceholder_api_base_to(String url) {
-        OnStage.theActorCalled("Usuario").can(CallAnApi.at(url));
+        OnStage.theActorInTheSpotlight().can(CallAnApi.at(url));
     }
 
     @When("obtengo el post con ID {int}")
@@ -39,7 +41,12 @@ public class JsonPlaceholderApiSteps {
         OnStage.theActorInTheSpotlight()
                 .should(
                         seeThatResponse("Status code is correct",
-                                response -> response.statusCode(expectedStatus))
+                                response -> {
+                                    // Imprime en consola todo el request+response
+                                    response.log().all();
+                                    // Luego valida el status
+                                    response.statusCode(expectedStatus);
+                                })
                 );
     }
 
@@ -48,7 +55,12 @@ public class JsonPlaceholderApiSteps {
         OnStage.theActorInTheSpotlight()
                 .should(
                         seeThatResponse("Title field is correct",
-                                response -> response.body("title", equalTo(expectedTitle)))
+                                response -> {
+                                    // Imprime en consola request+response
+                                    response.log().all();
+                                    // Luego valida el campo “title”
+                                    response.body("title", equalTo(expectedTitle));
+                                })
                 );
     }
 }

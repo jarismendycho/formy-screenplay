@@ -48,25 +48,39 @@ public class SoapCalculatorSteps {
     }
 
     @Then("el código de estado debe ser {int}")
-    public void theStatusCodeShouldBe(int status) {
+    public void verifyStatusCode(int status) {
         OnStage.theActorInTheSpotlight()
-                .should(seeThatResponse(response -> response.statusCode(status)));
+                .should(
+                        seeThatResponse(
+                                response -> {
+                                    // Fuerza el log de request+response en consola
+                                    response.log().all();
+                                    response.statusCode(status);
+                                }
+                        )
+                );
     }
 
     @Then("el resultado de la {word} debe ser {int}")
-    public void theResultShouldBe(String palabraClave, int resultadoEsperado) {
+    public void verifyResult(String operation, int expectedResult) {
         String soapOp;
-        switch (palabraClave.toLowerCase()) {
+        switch (operation.toLowerCase()) {
             case "suma":    soapOp = "Add";      break;
             case "resta":   soapOp = "Subtract"; break;
-            default:         soapOp = lastOperation; break;
+            default:        soapOp = lastOperation; break;
         }
-        String tagResult = soapOp + "Result";
+        String expectedTag = "<" + soapOp + "Result>" + expectedResult + "</" + soapOp + "Result>";
 
-        OnStage.theActorInTheSpotlight().should(seeThatResponse(
-                response -> response.body(containsString(
-                        "<" + tagResult + ">" + resultadoEsperado + "</" + tagResult + ">"
-                ))
-        ));
+        OnStage.theActorInTheSpotlight()
+                .should(
+                        seeThatResponse(
+                                response -> {
+                                    // Imprime todo el request+response SOAP
+                                    response.log().all();
+                                    // Verifica que el cuerpo contenga <AddResult>8</AddResult>, etc.
+                                    response.body(containsString(expectedTag));
+                                }
+                        )
+                );
     }
 }
